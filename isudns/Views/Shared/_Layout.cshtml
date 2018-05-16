@@ -1,9 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@inject UserManager<ApplicationUser> _userManager
+@{
+    var user = await _userManager.GetUserAsync(User);
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - isudns</title>
+    <title>@ViewData["Title"] - Система учета деятельности научных сотрудников</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -26,13 +30,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">isudns</a>
+                <a asp-area="" asp-controller="Home"
+                   asp-action="Index" class="navbar-brand">ИС</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Главная</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About">О приложении</a></li>
+                    <li><a asp-area="" asp-controller="Articles" asp-action="Index">Научные работы</a></li>
+                    @{
+                        if (user != null) { 
+                            <li><a asp-area="" asp-controller="ApplicationUsers" 
+                                   asp-action="Details" asp-route-id="@user.Id">Мой кабинет</a></li>
+                        }
+
+                    }
+
+
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

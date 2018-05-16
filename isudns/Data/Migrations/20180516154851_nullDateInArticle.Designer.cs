@@ -11,9 +11,10 @@ using System;
 namespace isudns.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180516154851_nullDateInArticle")]
+    partial class nullDateInArticle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,13 +109,27 @@ namespace isudns.Data.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<string>("Location");
+                    b.Property<int>("LocationId");
 
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("LocationId");
+
                     b.ToTable("Conferentions");
+                });
+
+            modelBuilder.Entity("isudns.Models.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -230,6 +245,14 @@ namespace isudns.Data.Migrations
                     b.HasOne("isudns.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Articles")
                         .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("isudns.Models.Conferention", b =>
+                {
+                    b.HasOne("isudns.Models.Location", "Location")
+                        .WithMany("Conferentions")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

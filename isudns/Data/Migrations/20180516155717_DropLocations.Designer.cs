@@ -11,9 +11,10 @@ using System;
 namespace isudns.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180516155717_DropLocations")]
+    partial class DropLocations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,7 +109,7 @@ namespace isudns.Data.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<string>("Location");
+                    b.Property<int>("LocationId");
 
                     b.Property<string>("Name");
 

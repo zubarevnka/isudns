@@ -37,6 +37,11 @@ namespace isudns.Controllers
             _logger = logger;
         }
 
+        public async Task<IActionResult> Profile()
+        {
+            return View(_userManager);
+        }
+
         [TempData]
         public string ErrorMessage { get; set; }
 

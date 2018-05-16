@@ -10,6 +10,18 @@ namespace isudns.Models.ManageViewModels
     {
         public string Username { get; set; }
 
+        //[Required]
+
+        public string Name { get; set; }
+        public string Position { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime DateOfBirth { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime JobStartDate { get; set; }
+
+        public double Rating { get; set; }
         public bool IsEmailConfirmed { get; set; }
 
         [Required]
