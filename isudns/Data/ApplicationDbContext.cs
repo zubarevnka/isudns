@@ -17,7 +17,7 @@ namespace isudns.Data
 
         public DbSet<Article> Articles { get; set; }
         public DbSet<Conferention> Conferentions { get; set; }
-        public DbSet<ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

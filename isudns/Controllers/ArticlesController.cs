@@ -66,7 +66,7 @@ namespace isudns.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", article.ApplicationUserId);
+            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", article.ApplicationUserId);
             return View(article);
         }
 
@@ -83,7 +83,7 @@ namespace isudns.Controllers
             {
                 return NotFound();
             }
-            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", article.ApplicationUserId);
+            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", article.ApplicationUserId);
             return View(article);
         }
 
@@ -119,7 +119,7 @@ namespace isudns.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", article.ApplicationUserId);
+            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", article.ApplicationUserId);
             return View(article);
         }
 

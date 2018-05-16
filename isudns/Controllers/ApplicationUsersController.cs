@@ -22,7 +22,7 @@ namespace isudns.Controllers
         // GET: ApplicationUsers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ApplicationUser.ToListAsync());
+            return View(await _context.ApplicationUsers.OrderByDescending(u => u.Rating).ToListAsync());
         }
 
         // GET: ApplicationUsers/Details/5
@@ -33,7 +33,7 @@ namespace isudns.Controllers
                 return NotFound();
             }
 
-            var applicationUser = await _context.ApplicationUser.Include(u => u.Articles)
+            var applicationUser = await _context.ApplicationUsers.Include(u => u.Articles)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (applicationUser == null)
             {
@@ -73,7 +73,7 @@ namespace isudns.Controllers
                 return NotFound();
             }
 
-            var applicationUser = await _context.ApplicationUser/*.Include(u => u.Articles)*/.SingleOrDefaultAsync(m => m.Id == id);
+            var applicationUser = await _context.ApplicationUsers/*.Include(u => u.Articles)*/.SingleOrDefaultAsync(m => m.Id == id);
             if (applicationUser == null)
             {
                 return NotFound();
@@ -127,7 +127,7 @@ namespace isudns.Controllers
                 return NotFound();
             }
 
-            var applicationUser = await _context.ApplicationUser
+            var applicationUser = await _context.ApplicationUsers
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (applicationUser == null)
             {
@@ -142,15 +142,15 @@ namespace isudns.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var applicationUser = await _context.ApplicationUser.SingleOrDefaultAsync(m => m.Id == id);
-            _context.ApplicationUser.Remove(applicationUser);
+            var applicationUser = await _context.ApplicationUsers.SingleOrDefaultAsync(m => m.Id == id);
+            _context.ApplicationUsers.Remove(applicationUser);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ApplicationUserExists(string id)
         {
-            return _context.ApplicationUser.Any(e => e.Id == id);
+            return _context.ApplicationUsers.Any(e => e.Id == id);
         }
     }
 }
