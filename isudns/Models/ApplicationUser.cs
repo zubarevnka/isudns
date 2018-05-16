@@ -18,11 +18,11 @@ namespace isudns.Models
 
         [Display(Name = "Дата Рождения")]
         [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         [Display(Name = "Дата приема на работу")]
         [DataType(DataType.Date)]
-        public DateTime JobStartDate { get; set; }
+        public DateTime? JobStartDate { get; set; }
 
         [Display(Name = "Количество баллов")]
         public double Rating { get; set; }
