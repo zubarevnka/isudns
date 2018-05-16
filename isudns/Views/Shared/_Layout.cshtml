@@ -34,17 +34,23 @@
                    asp-action="Index" class="navbar-brand">ИС</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav text-left">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Главная</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">О приложении</a></li>
+                    @*<li><a asp-area="" asp-controller="Home" asp-action="About">О приложении</a></li>*@
                     <li><a asp-area="" asp-controller="Articles" asp-action="Index">Научные работы</a></li>
                     @{
-                        if (user != null) { 
-                            <li><a asp-area="" asp-controller="ApplicationUsers" 
-                                   asp-action="Details" asp-route-id="@user.Id">Мой кабинет</a></li>
-                        }
+        if (user != null)
+        {
+                <li>
+                    <a asp-area="" asp-controller="ApplicationUsers"
+                       asp-action="Details" asp-route-id="@user.Id">Мой кабинет</a>
+                </li>
+}
 
                     }
+                    <li><a asp-area="" asp-controller="Roles" asp-action="Index">Управление ролями (админ-фича)</a></li>
+                    <li><a asp-area="" asp-controller="ApplicationUsers" asp-action="Index">Пользователи</a></li>
+                    <li><a asp-area="" asp-controller="Conferentions" asp-action="Index">Все конференции</a></li>
 
 
                 </ul>
