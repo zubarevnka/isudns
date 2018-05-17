@@ -25,7 +25,7 @@ namespace isudns.Controllers
         // GET: Conferentions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Conferentions.ToListAsync());
+            return View(await _context.Conferentions.OrderByDescending(c => c.Date).ToListAsync());
         }
 
         [AllowAnonymous]

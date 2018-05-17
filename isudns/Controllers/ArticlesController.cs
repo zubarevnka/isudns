@@ -23,7 +23,7 @@ namespace isudns.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Articles.Include(a => a.ApplicationUser);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await applicationDbContext.OrderByDescending(c => c.CreationDate).ToListAsync());
         }
 
         // GET: Articles/Details/5
