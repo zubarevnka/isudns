@@ -11,9 +11,10 @@ using System;
 namespace isudns.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180516154851_nullDateInArticle")]
+    partial class nullDateInArticle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,14 +31,14 @@ namespace isudns.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<DateTime?>("DateOfBirth");
+                    b.Property<DateTime>("DateOfBirth");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<DateTime?>("JobStartDate");
+                    b.Property<DateTime>("JobStartDate");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -81,19 +82,6 @@ namespace isudns.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("isudns.Models.ApplicationUserConferention", b =>
-                {
-                    b.Property<string>("ApplicationUserId");
-
-                    b.Property<int>("ConferentionId");
-
-                    b.HasKey("ApplicationUserId", "ConferentionId");
-
-                    b.HasIndex("ConferentionId");
-
-                    b.ToTable("ApplicationUserConferention");
-                });
-
             modelBuilder.Entity("isudns.Models.Article", b =>
                 {
                     b.Property<int>("Id")
@@ -121,13 +109,27 @@ namespace isudns.Data.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<string>("Location");
+                    b.Property<int>("LocationId");
 
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("LocationId");
+
                     b.ToTable("Conferentions");
+                });
+
+            modelBuilder.Entity("isudns.Models.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -238,24 +240,19 @@ namespace isudns.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("isudns.Models.ApplicationUserConferention", b =>
-                {
-                    b.HasOne("isudns.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("ApplicationUserConferentions")
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("isudns.Models.Conferention", "Conferention")
-                        .WithMany("ApplicationUserConferentions")
-                        .HasForeignKey("ConferentionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("isudns.Models.Article", b =>
                 {
                     b.HasOne("isudns.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Articles")
                         .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("isudns.Models.Conferention", b =>
+                {
+                    b.HasOne("isudns.Models.Location", "Location")
+                        .WithMany("Conferentions")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

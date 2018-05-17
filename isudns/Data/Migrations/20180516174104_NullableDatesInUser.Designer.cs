@@ -11,9 +11,10 @@ using System;
 namespace isudns.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180516174104_NullableDatesInUser")]
+    partial class NullableDatesInUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,19 +80,6 @@ namespace isudns.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("isudns.Models.ApplicationUserConferention", b =>
-                {
-                    b.Property<string>("ApplicationUserId");
-
-                    b.Property<int>("ConferentionId");
-
-                    b.HasKey("ApplicationUserId", "ConferentionId");
-
-                    b.HasIndex("ConferentionId");
-
-                    b.ToTable("ApplicationUserConferention");
                 });
 
             modelBuilder.Entity("isudns.Models.Article", b =>
@@ -236,19 +224,6 @@ namespace isudns.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("isudns.Models.ApplicationUserConferention", b =>
-                {
-                    b.HasOne("isudns.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("ApplicationUserConferentions")
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("isudns.Models.Conferention", "Conferention")
-                        .WithMany("ApplicationUserConferentions")
-                        .HasForeignKey("ConferentionId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("isudns.Models.Article", b =>
