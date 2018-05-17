@@ -24,6 +24,7 @@ namespace isudns.Models
         [DataType(DataType.Date)]
         public DateTime? JobStartDate { get; set; }
 
+        [Range(0, Double.PositiveInfinity)]
         [Display(Name = "Количество баллов")]
         public double Rating { get; set; }
 

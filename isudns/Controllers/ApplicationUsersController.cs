@@ -7,9 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using isudns.Data;
 using isudns.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace isudns.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class ApplicationUsersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,12 +23,14 @@ namespace isudns.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         // GET: ApplicationUsers
         public async Task<IActionResult> Index()
         {
             return View(await _context.ApplicationUsers.OrderByDescending(u => u.Rating).ToListAsync());
         }
 
+        [AllowAnonymous]
         // GET: ApplicationUsers/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -65,9 +71,17 @@ namespace isudns.Controllers
             return View(applicationUser);
         }
 
+        [AllowAnonymous]
         // GET: ApplicationUsers/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
+            //if (id != User?.Claims?.Where(c => c?.Type == "nameidentifier").SingleOrDefault().Value)
+            //    return Json("q");
+            if(!(User.HasClaim(c => (c.Type == ClaimTypes.NameIdentifier && c.Value == id)
+            || (c.Type == ClaimTypes.Role && c.Value == "admin"))))
+            {
+                return RedirectToAction("AccessDenied", "Account");
+            }
             if (id == null)
             {
                 return NotFound();

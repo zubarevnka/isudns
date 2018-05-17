@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using isudns.Data;
 using isudns.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace isudns.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class ConferentionsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,12 +21,14 @@ namespace isudns.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         // GET: Conferentions
         public async Task<IActionResult> Index()
         {
             return View(await _context.Conferentions.ToListAsync());
         }
 
+        [AllowAnonymous]
         // GET: Conferentions/Details/5
         public async Task<IActionResult> Details(int? id)
         {

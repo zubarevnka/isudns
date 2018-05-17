@@ -1,12 +1,15 @@
 ﻿@model isudns.Models.ApplicationUser
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Редактировать</h2>
 
-<h4>ApplicationUser</h4>
+<h4>Информация о пользователе</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -34,7 +37,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="Rating" class="control-label"></label>
-                <input asp-for="Rating" class="form-control" />
+                @if ((await AuthorizationService.AuthorizeAsync(User, "AdminAccess")).Succeeded)
+                {
+                    <input asp-for="Rating" class="form-control" />
+                }
+                else
+                {
+                    @Html.DisplayFor(r => r.Rating);
+                }
                 <span asp-validation-for="Rating" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="Id" />
@@ -46,7 +56,7 @@
             <input type="hidden" asp-for="SecurityStamp" />
             <input type="hidden" asp-for="UserName" />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Сохранить" class="btn btn-default" />
             </div>
         </form>
     </div>
