@@ -27,7 +27,9 @@ namespace isudns.Controllers
         // GET: ApplicationUsers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ApplicationUsers.OrderByDescending(u => u.Rating).ToListAsync());
+            return View(await _context.ApplicationUsers.Where(u => u.UserName != "admin@gmail.com")
+                .OrderByDescending(u => u.Rating)                
+                .ToListAsync());
         }
 
         [AllowAnonymous]
