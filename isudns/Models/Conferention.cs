@@ -16,5 +16,7 @@ namespace isudns.Models
         public DateTime Date { get; set; }
         [Display(Name = "Место проведения")]
         public string Location { get; set; }
+        public IEnumerable<ApplicationUserConferention> ApplicationUserConferentions { get; set; }
+
     }
 }

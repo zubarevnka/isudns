@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using isudns.Data;
 using isudns.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace isudns.Controllers
 {
@@ -15,9 +16,12 @@ namespace isudns.Controllers
     public class ConferentionsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ConferentionsController(ApplicationDbContext context)
+
+        public ConferentionsController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
+            _userManager = userManager;
             _context = context;
         }
 
@@ -32,19 +36,45 @@ namespace isudns.Controllers
         // GET: Conferentions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (User.Identity.IsAuthenticated)
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var conferention = await _context.Conferentions
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (conferention == null)
+                var conferention = await _context.Conferentions
+                    .SingleOrDefaultAsync(m => m.Id == id);
+                if (conferention == null)
+                {
+                    return NotFound();
+                }
+
+                return View(conferention);
+            }
+            else
             {
-                return NotFound();
-            }
+                return RedirectToAction("AccessDenied", "Account");
 
-            return View(conferention);
+            }
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> AddToMyConfs(int id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                await _context.ApplicationUserConferention.AddAsync(new ApplicationUserConferention
+                { ApplicationUserId = _userManager.GetUserId(User), ConferentionId = id });
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index", "Conferentions");
+            }
+            else
+            {
+                return RedirectToAction("AccessDenied", "Account");
+
+            }
         }
 
         // GET: Conferentions/Create

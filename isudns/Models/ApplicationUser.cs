@@ -30,6 +30,7 @@ namespace isudns.Models
 
         [Display(Name = "Мои научные работы")]
         public IEnumerable<Article> Articles { get; set; }
+        public IEnumerable<ApplicationUserConferention> ApplicationUserConferentions { get; set; }
 
     }
 }

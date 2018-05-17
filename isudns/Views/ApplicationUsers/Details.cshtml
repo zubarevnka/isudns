@@ -44,7 +44,7 @@
         <dt>
             @Html.DisplayNameFor(model => model.Articles)
             <br />
-            <a asp-area="" asp-controller="Articles" asp-action="Create" 
+            <a asp-area="" asp-controller="Articles" asp-action="Create"
                asp-route-applicationUserId="@Model.Id">Добавить</a>
         </dt>
         <dd>
@@ -54,16 +54,40 @@
                     <th>Год создания</th>
                 </tr>
                 @foreach (var item in Model.Articles)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CreationDate)
-                        </td>
-                    </tr>
-                }
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreationDate)
+                    </td>
+                </tr>
+        }
+            </table>
+        </dd>
+
+        <dt>
+            Мои конференции
+            <br />            
+        </dt>
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>Место проведения</th>
+                    <th>Дата проведения</th>
+                </tr>
+                @foreach (var item in Model.ApplicationUserConferentions)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Conferention.Location)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Conferention.Date)
+                    </td>
+                </tr>
+        }
             </table>
         </dd>
 
