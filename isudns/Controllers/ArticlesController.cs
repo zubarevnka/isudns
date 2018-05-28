@@ -134,6 +134,7 @@ namespace isudns.Controllers
         // GET: Articles/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+
             if (id == null)
             {
                 return NotFound();
@@ -142,6 +143,13 @@ namespace isudns.Controllers
             var article = await _context.Articles
                 .Include(a => a.ApplicationUser)
                 .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (!(User.HasClaim(c => (c.Type == ClaimTypes.NameIdentifier && c.Value == article.ApplicationUserId)
+             || (c.Type == ClaimTypes.Role && c.Value == "admin"))))
+            {
+                return RedirectToAction("AccessDenied", "Account");
+            }
+
             if (article == null)
             {
                 return NotFound();
