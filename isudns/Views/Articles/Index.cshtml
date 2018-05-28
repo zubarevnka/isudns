@@ -15,9 +15,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
-                <th>
+                @*<th>
                     @Html.DisplayNameFor(model => model.Text)
-                </th>
+                </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.CreationDate)
                 </th>
@@ -33,19 +33,19 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Text)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.CreationDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ApplicationUser.Name)
+                @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
             </td>
             <td>
-                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> 
+                @*<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
             </td>
         </tr>
 }
