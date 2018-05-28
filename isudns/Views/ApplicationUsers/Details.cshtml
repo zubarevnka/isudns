@@ -1,4 +1,7 @@
-﻿@model isudns.Models.ApplicationUser
+﻿@inject UserManager<ApplicationUser> _userManager
+@using System.Security.Claims;
+
+@model isudns.Models.ApplicationUser
 
 @{
     ViewData["Title"] = "Мой кабинет";
@@ -50,8 +53,15 @@
         <dt>
             @Html.DisplayNameFor(model => model.Articles)
             <br />
-            <a asp-area="" asp-controller="Articles" asp-action="Create"
-               asp-route-applicationUserId="@Model.Id">Добавить</a>
+
+            @{
+                if (User.HasClaim(c => (c.Type == ClaimTypes.NameIdentifier && c.Value == Model.Id)
+              /*|| (c.Type == ClaimTypes.Role && c.Value == "admin")*/))
+                {
+                    <a asp-area="" asp-controller="Articles" asp-action="Create"
+                       asp-route-applicationUserId="@Model.Id">Добавить</a>
+                }
+            }
         </dt>
         <dd>
             <table class="table">
