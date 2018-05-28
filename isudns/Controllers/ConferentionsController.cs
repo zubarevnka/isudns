@@ -44,6 +44,7 @@ namespace isudns.Controllers
                 }
 
                 var conferention = await _context.Conferentions
+                    .Include(c => c.ApplicationUserConferentions).ThenInclude(auc => auc.ApplicationUser)
                     .SingleOrDefaultAsync(m => m.Id == id);
                 if (conferention == null)
                 {

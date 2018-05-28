@@ -28,6 +28,22 @@
         <dd>
             @Html.DisplayFor(model => model.Location)
         </dd>
+        <dt>
+            Участники
+            <br />
+        </dt>
+        <dd>
+            <table class="table">
+                @foreach (var item in Model.ApplicationUserConferentions)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
     </dl>
 </div>
 <div>
