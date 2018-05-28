@@ -12,6 +12,12 @@
 
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd>
@@ -54,22 +60,22 @@
                     <th>Год создания</th>
                 </tr>
                 @foreach (var item in Model.Articles)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreationDate)
-                    </td>
-                </tr>
-        }
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreationDate)
+                        </td>
+                    </tr>
+                }
             </table>
         </dd>
 
         <dt>
             Мои конференции
-            <br />            
+            <br />
         </dt>
         <dd>
             <table class="table">
@@ -78,16 +84,16 @@
                     <th>Дата проведения</th>
                 </tr>
                 @foreach (var item in Model.ApplicationUserConferentions)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Conferention.Location)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Conferention.Date)
-                    </td>
-                </tr>
-        }
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Conferention.Location)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Conferention.Date)
+                        </td>
+                    </tr>
+                }
             </table>
         </dd>
 
