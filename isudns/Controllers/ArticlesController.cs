@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using isudns.Data;
 using isudns.Models;
+using System.Security.Claims;
 
 namespace isudns.Controllers
 {
@@ -73,16 +74,22 @@ namespace isudns.Controllers
         // GET: Articles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var article = await _context.Articles.SingleOrDefaultAsync(m => m.Id == id);
             if (article == null)
             {
                 return NotFound();
             }
+            if (!(User.HasClaim(c => (c.Type == ClaimTypes.NameIdentifier && c.Value == article.ApplicationUserId)
+             || (c.Type == ClaimTypes.Role && c.Value == "admin"))))
+            {
+                return RedirectToAction("AccessDenied", "Account");
+            }
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            
             ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", article.ApplicationUserId);
             return View(article);
         }
@@ -94,6 +101,7 @@ namespace isudns.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Text,CreationDate,ApplicationUserId")] Article article)
         {
+            
             if (id != article.Id)
             {
                 return NotFound();
@@ -119,7 +127,7 @@ namespace isudns.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", article.ApplicationUserId);
+            //ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", article.ApplicationUserId);
             return View(article);
         }
 
