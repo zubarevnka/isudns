@@ -9,6 +9,7 @@ using isudns.Data;
 using isudns.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace isudns.Controllers
 {
@@ -65,6 +66,10 @@ namespace isudns.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                var auc = await _context.ApplicationUserConferention.FindAsync(_userManager.GetUserId(User), id);
+                if (auc != null)
+                    return RedirectToAction("Index", "Conferentions");
+
                 await _context.ApplicationUserConferention.AddAsync(new ApplicationUserConferention
                 { ApplicationUserId = _userManager.GetUserId(User), ConferentionId = id });
                 await _context.SaveChangesAsync();
@@ -76,6 +81,22 @@ namespace isudns.Controllers
                 return RedirectToAction("AccessDenied", "Account");
 
             }
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> RemoveFromMyConfs(string userId, int confId)
+        {
+            if (!(User.HasClaim(c => (c.Type == ClaimTypes.NameIdentifier && c.Value == userId)
+             || (c.Type == ClaimTypes.Role && c.Value == "admin"))))
+            {
+                return RedirectToAction("AccessDenied", "Account");
+            }
+
+            var auc = await _context.ApplicationUserConferention.FindAsync(userId, confId);
+            //return Json(new { auc });
+            _context.Remove(auc);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Details), new { id = confId });
         }
 
         // GET: Conferentions/Create

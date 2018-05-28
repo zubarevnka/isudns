@@ -34,13 +34,21 @@
         </dt>
         <dd>
             <table class="table">
+                <tr>
+                    <th>Пользователь</th>
+                    <th></th>
+                </tr>
                 @foreach (var item in Model.ApplicationUserConferentions)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
+                    </td>
+                    <td>
+                        <a asp-action="RemoveFromMyConfs" asp-route-userId ="@item.ApplicationUser.Id"
+                           asp-route-confId ="@Model.Id">Исключить</a>
+                    </td>
+                </tr>
                 }
             </table>
         </dd>
